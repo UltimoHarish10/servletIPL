@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>servlrt_ipl_project</display-name>
+  <welcome-file-list>
+    <welcome-file>/VIEWS/Strat.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+  	<servlet-name>welcomeServlet</servlet-name>
+  	<servlet-class>com.har.ish.servlets.loginclass</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>welcomeServlet</servlet-name>
+  	<url-pattern>/welcome</url-pattern>
+  </servlet-mapping>
+  <filter>
+   <filter-name>LoginFilter</filter-name>
+   <filter-class>com.har.ish.filters.AuthenticationFilter</filter-class>
+</filter>
+<filter-mapping>
+   <filter-name>LoginFilter</filter-name>
+   <url-pattern>/welcome</url-pattern>
+</filter-mapping>
+  
+  <servlet>
+  	<servlet-name>newUserServlet</servlet-name>
+  	<servlet-class>com.har.ish.servlets.newUserClass</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>newUserServlet</servlet-name>
+  	<url-pattern>/newUser</url-pattern>
+  </servlet-mapping>
+ 
+<servlet>
+  	<servlet-name>PersonDetailsServlet</servlet-name>
+  	<servlet-class>com.har.ish.servlets.PersonDetailsGetClass</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>PersonDetailsServlet</servlet-name>
+  	<url-pattern>/persons</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>PersonDetailsSaveServlet</servlet-name>
+  	<servlet-class>com.har.ish.servlets.PersonalDetailsSaveClass</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>PersonDetailsSaveServlet</servlet-name>
+  	<url-pattern>/savepersons</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>PersonDetailsGetFilterServlet</servlet-name>
+  	<servlet-class>com.har.ish.servlets.personalDetailsGetFilterClass</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>PersonDetailsGetFilterServlet</servlet-name>
+  	<url-pattern>/getpersonsbyfilters</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>PlayerDetailExportServlet</servlet-name>
+  	<servlet-class>com.har.ish.servlets.playerExportClass</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>PlayerDetailExportServlet</servlet-name>
+  	<url-pattern>/getExportPlayers</url-pattern>
+  </servlet-mapping>
+</web-app>
