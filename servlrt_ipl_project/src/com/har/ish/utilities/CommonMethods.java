@@ -42,12 +42,18 @@ public class CommonMethods {
 	public static final String CONTENTDISPOSITION = "Content-Disposition";
 	public static final String PLAYERATTACHMENT = "attachment; filename=PlayersList.xlsx";
 	public static final String TIMESNEWROMAN = "Times New Roman";
+	public static final String USERNAME = "UserName";
 	public static final int SEVENHUNDRED = 700;
 	public static final int SEVENTHOUSANDFIVEHUNDRED = 7500;
 	public static final int CONTENTFONTSIZE = 12;
 	public static final int HEADERNAMEFONTSIZE = 20;
 	public static final int HEADERFONTSIZE = 15;
+	public static final int THREEHUNDRED = 300;
+	public static final int TWOHUNDRED = 200;
+	public static final int HUNDRED = 100;
 	public static final boolean TRUE = true;
+	public static final int FOURHUNDRED = 400;
+	public static final int FIVEHUNDRED = 500;
 	
 	public List<String> differentEmails(List<String> entry){
 		List<String> entries=null;

@@ -18,12 +18,13 @@ import com.google.gson.Gson;
 import com.har.ish.dto.PasswordModel;
 import com.har.ish.model.passwordModel;
 import com.har.ish.service.newUserService;
+import com.har.ish.utilities.CommonMethods;
 
 public class AuthenticationFilter implements Filter {
 	
 	public static final Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
 	public void init(FilterConfig config) {
-		System.out.println("filter class is called");
+		System.out.println("Auth filter class is called");
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -45,6 +46,9 @@ public class AuthenticationFilter implements Filter {
 			req.setAttribute("isAuthenticated", true);
 			req.setAttribute("User", model.getUserName());
 			req.setAttribute("Password", model.getPassword());
+			HttpSession session = req.getSession();
+			session.setAttribute(CommonMethods.USERNAME, model.getUserName());
+			session.setMaxInactiveInterval(CommonMethods.HUNDRED);
 		}
 		logger.info("Authentication Filter class is completed successfully");
 		chain.doFilter(req, res);
