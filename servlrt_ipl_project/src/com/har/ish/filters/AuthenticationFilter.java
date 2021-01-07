@@ -49,9 +49,13 @@ public class AuthenticationFilter implements Filter {
 			HttpSession session = req.getSession();
 			session.setAttribute(CommonMethods.USERNAME, model.getUserName());
 			session.setMaxInactiveInterval(CommonMethods.HUNDRED);
+			chain.doFilter(req, res);
+		}
+		else{
+			res.setStatus(CommonMethods.FOURHUNDREDANDSEVENTY);
 		}
 		logger.info("Authentication Filter class is completed successfully");
-		chain.doFilter(req, res);
+		
 		}
 		catch(Exception e){
 			logger.error("Error occured in the authentication filter class : {}",e);

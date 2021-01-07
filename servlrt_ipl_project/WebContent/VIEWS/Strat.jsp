@@ -5,9 +5,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>loginPage</title>
-<link href="../CSS/Start.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="../CSS/bootstrap.min.css">
-<script type="text/javascript" src="../JS/Start.js">
+<link href="<%=request.getContextPath()%>/CSS/Start.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/bootstrap.min.css">
+<script type="text/javascript" src="<%=request.getContextPath()%>/JS/Start.js">
 </script>
 </head>
 <body>
@@ -52,7 +52,7 @@
 							onclick="submitfuns()">SUBMIT</button>
 					</div>
 					<div class="loader" id="loader" style="display:none">
-						<img src="..\Images\loader1.gif" width="40px" height="50px">
+						<img src="<%=request.getContextPath()%>\Images\loader1.gif" width="40px" height="50px">
 					</div>
 				</div>
 				<div class="textprops7">
