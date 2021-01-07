@@ -54,6 +54,7 @@ public class CommonMethods {
 	public static final boolean TRUE = true;
 	public static final int FOURHUNDRED = 400;
 	public static final int FIVEHUNDRED = 500;
+	public static final int FOURHUNDREDANDSEVENTY = 470;
 	
 	public List<String> differentEmails(List<String> entry){
 		List<String> entries=null;

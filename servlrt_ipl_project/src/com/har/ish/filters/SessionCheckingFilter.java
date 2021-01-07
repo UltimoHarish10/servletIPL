@@ -38,13 +38,13 @@ public class SessionCheckingFilter implements Filter {
 				if (session.getAttribute(CommonMethods.USERNAME) == null) {
 					logger.info("Inside if condition of the CommonMethods.USERNAME");
 					session.invalidate();
-					res.sendError(CommonMethods.FIVEHUNDRED,
+					res.sendError(CommonMethods.FOURHUNDRED,
 							"Session is invalidated Please login to do the actions in the application");
 				} else {
 					chain.doFilter(req, res);
 				}
 			} else {
-				res.sendError(CommonMethods.FIVEHUNDRED, "Please Login into the application");
+				res.sendError(CommonMethods.FOURHUNDRED, "Session is invalidated Please login to do the actions in the application");
 			}
 
 		} catch (Exception e) {
