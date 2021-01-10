@@ -92,8 +92,8 @@ public class PersonDetailsService {
 		try{
 			List<Object[]> objects = personDetailsDao.getAllPersonalDetails(personDto);
 			pers = translator.translateToAllPersonalDto(objects,pers);
-			jsonString = mapper.writeValueAsString(pers);
-		    System.out.println(jsonString);
+			/*jsonString = mapper.writeValueAsString(pers);
+		    System.out.println(jsonString);*/
 		}
 		catch(Exception e){
 			logger.error("exception occured in the getAllPersonalDetails method : {}",e);

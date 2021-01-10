@@ -1,5 +1,10 @@
 package com.har.ish.servlets;
 
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +29,18 @@ public class PersonDetailsGetClass extends HttpServlet{
 		else{
 			PersonDetailsService person = new PersonDetailsService();
 			AllPersonalDetailsDto personDto = null;
-			person.getAllPersonalDetails(personDto);
+			List<AllPersonalDetailsDto> personalDetails= person.getAllPersonalDetails(personDto);
+			req.setAttribute("personalDetails", personalDetails);
+			RequestDispatcher rd = req.getRequestDispatcher("/VIEWS/welcome.jsp");
+			try {
+				rd.forward(req, res);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		

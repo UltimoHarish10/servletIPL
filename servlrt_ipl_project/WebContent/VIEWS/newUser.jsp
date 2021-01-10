@@ -5,12 +5,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>NewUserPage</title>
-<link href="../CSS/newUser.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="../CSS/bootstrap.min.css">
-<script type="text/javascript" src="../JS/newUser.js">
+<link href="<%=request.getContextPath()%>/CSS/newUser.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/CSS/bootstrap.min.css">
+<script type="text/javascript" src="<%=request.getContextPath()%>/JS/newUser.js">
 </script>
 </head>
 <body>
+	<%
+		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");	
+		response.setHeader("Pragma","no-cache");
+		response.setHeader("Expires", "0");
+	%>
 	<div class="userinfo">
 		<div class = "staticprops">
 			<div class = "textprops">

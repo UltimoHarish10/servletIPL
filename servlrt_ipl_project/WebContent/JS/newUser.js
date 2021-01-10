@@ -21,14 +21,15 @@ function submitfuns()
 			      this.responseText;*/
 			  var UserAdd = xhr.getResponseHeader("UserAdd");
 			  if(UserAdd==1){
-				  window.location.href = "http://localhost:8080/servlrt_ipl_project/VIEWS/Strat.jsp"
+				  /*window.location.href = "http://localhost:8080/servlrt_ipl_project/VIEWS/Strat.jsp";*/
+				  window.location.href = "http://localhost:8080/servlrt_ipl_project/login";
 			  }
 		  }
 	  };
 	var passobject = new Object();
 	passobject.username = username.value;
 	passobject.password = password.value;
-	xhr.open('POST', '../newUser', true);
+	xhr.open('POST', '/servlrt_ipl_project/newUser', true);
 	xhr.setRequestHeader("Content-type", "application/json");
    xhr.send(JSON.stringify(passobject));
 }

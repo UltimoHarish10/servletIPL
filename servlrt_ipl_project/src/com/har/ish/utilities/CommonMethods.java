@@ -55,6 +55,11 @@ public class CommonMethods {
 	public static final int FOURHUNDRED = 400;
 	public static final int FIVEHUNDRED = 500;
 	public static final int FOURHUNDREDANDSEVENTY = 470;
+	public static final String SLASH = "/";
+	public static final String USER = "User";
+	public static final String ISAUTHENTICATED = "isAuthenticated";
+	public static final String PASSWORD = "Password";
+	public static final String PERSONALDETAILS = "Personal Details";
 	
 	public List<String> differentEmails(List<String> entry){
 		List<String> entries=null;
