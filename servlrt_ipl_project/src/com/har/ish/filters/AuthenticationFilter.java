@@ -33,6 +33,15 @@ public class AuthenticationFilter implements Filter {
 		logger.info("Inside the AuthenticationFilter class is started");
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
+		HttpSession session = req.getSession();
+		logger.info("doFilter method is called here in authentication Filter");
+		logger.info("---------------Checking the req.getAttribute(isAuthenticated)-------------------");
+		if(session.getAttribute("isAuthenticated")!=null){
+			logger.info("-----------------Inside If condition and the value is "+session.getAttribute("isAuthenticated")+"-----------------");
+			chain.doFilter(req, res);
+		}
+		else{
+		logger.info("-------------------Inside Else condition and the value is "+ null +"----------------------");
 		PasswordModel pass = new Gson().fromJson(req.getReader(), PasswordModel.class);
 		String user = pass.getUsername();
 		String password = pass.getPassword();
@@ -43,11 +52,11 @@ public class AuthenticationFilter implements Filter {
 		model = userService.getUser(user, password, model);
 		if (model.getUserName() != null && model.getPassword() != null) {
 			System.out.println(model.getUserName() + " " + model.getPassword());
-			req.setAttribute("isAuthenticated", true);
-			req.setAttribute("User", model.getUserName());
-			req.setAttribute("Password", model.getPassword());
-			HttpSession session = req.getSession();
+			req.setAttribute(CommonMethods.ISAUTHENTICATED, true);
+			req.setAttribute(CommonMethods.USER, model.getUserName());
+			req.setAttribute(CommonMethods.PASSWORD, model.getPassword());
 			session.setAttribute(CommonMethods.USERNAME, model.getUserName());
+			session.setAttribute(CommonMethods.ISAUTHENTICATED, true);
 			session.setMaxInactiveInterval(CommonMethods.HUNDRED);
 			chain.doFilter(req, res);
 		}
@@ -55,7 +64,7 @@ public class AuthenticationFilter implements Filter {
 			res.setStatus(CommonMethods.FOURHUNDREDANDSEVENTY);
 		}
 		logger.info("Authentication Filter class is completed successfully");
-		
+		}
 		}
 		catch(Exception e){
 			logger.error("Error occured in the authentication filter class : {}",e);

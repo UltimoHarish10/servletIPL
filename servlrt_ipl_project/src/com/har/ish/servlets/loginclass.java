@@ -16,9 +16,6 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 import com.har.ish.dto.PasswordModel;
 
-
-
-
 public class loginclass extends HttpServlet{
 	private static final Logger logger = LoggerFactory.getLogger(loginclass.class); 
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException{

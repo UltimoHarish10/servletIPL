@@ -22,7 +22,8 @@ function submitfuns()
 			  var isAuthenticated = xhr.getResponseHeader("isAuthenticated");
 			  document.getElementById("loader").style.display = "none";
 			  if(isAuthenticated){
-				  window.location.href = "http://localhost:8080/servlrt_ipl_project/VIEWS/welcome.jsp"
+				  /*window.location.href = "http://localhost:8080/servlrt_ipl_project/VIEWS/welcome.jsp";*/
+				  window.location.href = "http://localhost:8080/servlrt_ipl_project/getpersonsbyfilters";
 			  }
 		  }
 		  else if(this.readyState==4 && this.status!=200){
@@ -43,5 +44,6 @@ function submitfuns()
 	}
 }
 function mailpagefuns(){
-	window.location.href = "http://localhost:8080/servlrt_ipl_project/VIEWS/newUser.jsp"
+	/*window.location.href = "http://localhost:8080/servlrt_ipl_project/VIEWS/newUser.jsp";*/
+	window.location.href = "http://localhost:8080/servlrt_ipl_project/newUserRegisteration";
 }
