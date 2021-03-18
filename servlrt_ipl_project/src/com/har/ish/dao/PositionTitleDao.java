@@ -2,6 +2,7 @@ package com.har.ish.dao;
 
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -136,5 +137,29 @@ public Map<String,Integer> getpositionTitlesIdForMap(List<String> positionTitleV
 		return null;
 		
 	}
+public List<Object[]> getAllPositionTitleValues(){
+	hibernateInitiator in = new hibernateInitiator();
+	Session session = null;
+	Transaction tx = null;
+	try {
+		session = in.creator();
+		tx = session.beginTransaction();
+		StringBuilder query = new StringBuilder("SELECT POS.POSITION_TITLE_NAME,PT.PROFILE_TYPE_NAME FROM PROFILE_TYPE PT");
+		query.append(" INNER JOIN POSITION_TITLE POS ON ");
+		query.append("POS.PROFILE_TYPE_ID = PT.ID WHERE POS.IS_ACTIVE=1 AND PT.IS_ACTIVE=1");
+		Query stringQuery = session.createSQLQuery(query.toString());
+		List<Object[]> objs = stringQuery.list();
+		tx.commit();
+		return objs;
+	}
+	catch(Exception e){
+		tx.rollback();
+		e.printStackTrace();
+	}
+	finally{
+		session.close();
+	}
+	return null;
+}
 
 }

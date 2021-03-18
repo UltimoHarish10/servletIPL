@@ -1,6 +1,9 @@
 package com.har.ish.translators;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +42,7 @@ public class AllPersonalDtoTranslator {
 			pers.setTeamFullName(per.getTeams().getTeamFullName());
 			pers.setPositionTitle(per.getPostitle().getPositionTitleName());
 			pers.setProfileType(per.getPostitle().getProfType().getProfileTypeName());
+			pers.setDateOfBirth(per.getDateOfBirth().toString());
 			List<Long> phoneNumbers = new ArrayList<>();
 			phoneNumbers = phones.phoneNumberTranslator(per, phoneNumbers);
 			pers.setPhoneNumbers(phoneNumbers);
@@ -67,6 +71,9 @@ public class AllPersonalDtoTranslator {
 				personaldto.setLastName(obj[2].toString());
 				personaldto.setGender(obj[3].toString());
 				personaldto.setAge((Integer) obj[4]);
+				String pattern = "dd-MM-yyyy";
+				DateFormat df = new SimpleDateFormat(pattern);
+				personaldto.setDateOfBirth(df.format(obj[15]));
 				List<Long> longs = new ArrayList<>();
 				String phone = obj[5].toString();
 				Long phn = Long.parseLong(phone);
@@ -161,7 +168,10 @@ public class AllPersonalDtoTranslator {
 			if(personModel.getIsActive()==null){
 				personModel.setIsActive(true);
 			}
-			
+			if(personModel.getDateOfBirth() != null){  
+			    Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(personalDet.getDateOfBirth());  
+				personModel.setDateOfBirth(date1);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -31,7 +31,7 @@ public class CommonMethods {
 	public static final String FULLNAME = "FULL NAME";
 	public static final String HYPHEN = "-";
 	public static final String GENDER = "GENDER";
-	public static final String AGE = "AGE";
+	public static final String DATEOFBIRTH = "DATE OF BIRTH";
 	public static final String TEAMSHORTNAME = "TEAM SHORT NAME";
 	public static final String TEAMFULLNAME = "TEAM FULL NAME";
 	public static final String POSITIONTITLE = "POSITION TITLE";
@@ -55,11 +55,22 @@ public class CommonMethods {
 	public static final int FOURHUNDRED = 400;
 	public static final int FIVEHUNDRED = 500;
 	public static final int FOURHUNDREDANDSEVENTY = 470;
+	public static final int THREETHOUSAND = 3000;
+	public static final int ZERO = 0;
+	public static final int SEVEN = 7;
+	public static final int ONE = 1;
 	public static final String SLASH = "/";
 	public static final String USER = "User";
 	public static final String ISAUTHENTICATED = "isAuthenticated";
 	public static final String PASSWORD = "Password";
 	public static final String PERSONALDETAILS = "Personal Details";
+	public static final String DROPDOWNVALUES = "DropDownValues";
+	public static final String FILENAME = "fileName";
+	public static final String PLAYERSLIST = "PlayersList.xlsx";
+	public static final String PERSONALDETAILSFE = "Personal-Details";
+	public static final String CURRENTPAGE = "currentPage";
+	public static final String FROMPAGE = "fromPage";
+	public static final Integer ZEROINTEGER = 0;
 	
 	public List<String> differentEmails(List<String> entry){
 		List<String> entries=null;

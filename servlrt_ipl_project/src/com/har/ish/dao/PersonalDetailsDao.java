@@ -18,6 +18,7 @@ import com.har.ish.dto.AllPersonalDetailsDto;
 import com.har.ish.dto.FilterDto;
 import com.har.ish.model.PersonalDetailsModel;
 import com.har.ish.translators.CommonTranslator;
+import com.har.ish.utilities.CommonMethods;
 
 public class PersonalDetailsDao {
 	
@@ -49,7 +50,7 @@ public class PersonalDetailsDao {
 		return pers;
 	}
 
-	public List<Object[]> getAllPersonalDetails(AllPersonalDetailsDto personDto) {
+	public List<Object[]> getAllPersonalDetails(AllPersonalDetailsDto personDto,Integer currentPage,Integer fromPage) {
 		logger.info("getAllPersonalDetails method is started");
 		hibernateInitiator in = new hibernateInitiator();
 		Session b = null;
@@ -59,6 +60,20 @@ public class PersonalDetailsDao {
 			b = in.creator();
 			tx = b.beginTransaction();
 			Query query = b.getNamedQuery("GET_ALL_PERSONAL_DETAILS");
+			StringBuilder queryString = new StringBuilder(query.getQueryString());
+			if(currentPage != null && fromPage != null){
+				if(currentPage > fromPage){
+					Integer currentPageValue = currentPage * 7;
+					Integer fromPageValue = fromPage * 7;
+					queryString.append(" limit "+fromPageValue+","+currentPageValue);
+				}
+				else if(currentPage < fromPage){
+					Integer currentPageValue = (currentPage-1) * 7;
+					Integer fromPageValue = (fromPage-1) * 7;
+					queryString.append(" limit "+currentPageValue+","+fromPageValue);
+				}
+			}
+			query = b.createSQLQuery(queryString.toString());
 			objects = query.list();
 			tx.commit();
 		} catch (Exception e) {
@@ -70,6 +85,36 @@ public class PersonalDetailsDao {
 		}
 		logger.info("getAllPersonalDetails method is completed");
 		return objects;
+	}
+	
+	public boolean lastPageCheck(Integer currentPage){
+		Session session = null;
+		Transaction tx = null;
+		hibernateInitiator in = new hibernateInitiator();
+		boolean checkLastPage = false;
+		try{
+			session = in.creator();
+			tx = session.beginTransaction();
+			StringBuilder sqlQuery = new StringBuilder("SELECT COUNT(*) FROM personal_details WHERE IS_ACTIVE=1 AND ID > :CurrentPage");
+			Query query = session.createSQLQuery(sqlQuery.toString());
+			query.setParameter("CurrentPage", currentPage);
+			Integer value = Integer.parseInt(query.uniqueResult().toString());
+			if(value != null && value != CommonMethods.ZEROINTEGER){
+				checkLastPage = false;
+			}
+			else{
+				checkLastPage = true;
+			}
+			tx.commit();
+		}
+		catch(Exception e){
+			logger.error("Exception occured in the lastPageCheck method : {}",e);
+			tx.rollback();
+		}
+		finally{
+			session.close();
+		}
+		return checkLastPage;
 	}
 	
 	public void savePersonDetails(List<PersonalDetailsModel> persons){

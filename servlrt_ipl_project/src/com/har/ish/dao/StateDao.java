@@ -98,5 +98,27 @@ public Map<String,Integer> getCountryIdForMap(List<String> countryValues){
 		return null;
 		
 	}
+	public List<String> getAllCountries(){
+		hibernateInitiator in = new hibernateInitiator();
+		Session session = null;
+		Transaction tx = null;
+		try{
+			session = in.creator();
+			tx = session.beginTransaction();
+			StringBuilder query = new StringBuilder("SELECT COUNTRY_NAME FROM COUNTRY WHERE IS_ACTIVE=1");
+			Query stringQuery = session.createSQLQuery(query.toString());
+			List<String> objs = stringQuery.list();
+			tx.commit();
+			return objs;
+		}
+		catch(Exception e){
+			tx.rollback();
+			e.printStackTrace();
+		}
+		finally{
+			session.close();
+		}
+		return null;
+	}
 
 }

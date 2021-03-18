@@ -1,6 +1,7 @@
 package com.har.ish.model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -69,6 +70,9 @@ public class PersonalDetailsModel {
 	@OneToMany(mappedBy="personalDetails")
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<EmailModel> emails;
+	
+	@Column(name = "DATE_OF_BIRTH")
+	private Date dateOfBirth;
 
 	public Integer getId() {
 		return Id;
@@ -173,4 +177,13 @@ public class PersonalDetailsModel {
 	public void setAddresses(List<AddressModel> addresses) {
 		this.addresses = addresses;
 	}
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+	
 }

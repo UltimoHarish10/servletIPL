@@ -1,6 +1,8 @@
 package com.har.ish.dao;
 
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,8 @@ import com.har.ish.model.TeamModel;
 import com.har.ish.utilities.CommonMethods;
 
 public class TeamDao {
+	
+	private static final Logger logger = LoggerFactory.getLogger(TeamDao.class);
 	
 	public TeamModel getTeamDetailsByTeamFullname(String teamName){
 		hibernateInitiator hibe = new hibernateInitiator();
@@ -99,7 +103,7 @@ public Map<String,Integer> getTeamIdForMap(List<String> teamValues){
 		try{
 			session = hibeInitiator.creator();
 			tx=session.beginTransaction();
-			StringBuilder queryString = new StringBuilder("SELECT ID,TEAM_FULL_NAME FROM TEAM WHERE LOWER(TEAM_FULL_NAME) IN(");
+			StringBuilder queryString = new StringBuilder("SELECT ID,TEAM_SHORT_NAME FROM TEAM WHERE LOWER(TEAM_SHORT_NAME) IN(");
 			for(String s : teamValues){
 				queryString.append("'");
 				queryString.append(s);
@@ -123,5 +127,27 @@ public Map<String,Integer> getTeamIdForMap(List<String> teamValues){
 		return null;
 		
 	}
+public List<String> getAllActiveTeams(){
+	hibernateInitiator in = new hibernateInitiator();
+	Session session = null;
+	Transaction tx = null;
+	try{
+		session = in.creator();
+		tx = session.beginTransaction();
+		StringBuilder fullQuery = new StringBuilder("SELECT TEAM_SHORT_NAME FROM TEAM WHERE IS_ACTIVE=1");
+		Query stringQuery = session.createSQLQuery(fullQuery.toString());
+		List<String> objs = stringQuery.list();
+		tx.commit();
+		return objs;
+	}
+	catch(Exception e){
+		tx.rollback();
+		e.printStackTrace();
+	}
+	finally{
+		session.close();
+	}
+	return null;
+}
 
 }

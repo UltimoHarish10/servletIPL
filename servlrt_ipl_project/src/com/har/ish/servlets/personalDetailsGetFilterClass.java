@@ -35,14 +35,14 @@ public class personalDetailsGetFilterClass extends HttpServlet{
 				RequestDispatcher rd = req.getRequestDispatcher("/VIEWS/welcome.jsp");
 				rd.forward(req, res);
 			}
-			else{
+			/*else{
 				PersonDetailsService person = new PersonDetailsService();
 				AllPersonalDetailsDto personDto = null;
 				List<AllPersonalDetailsDto> personalDetailsDto = person.getAllPersonalDetails(personDto);
 				req.setAttribute(CommonMethods.PERSONALDETAILS, personalDetailsDto);
 				RequestDispatcher rd = req.getRequestDispatcher("/VIEWS/welcome.jsp");
 				rd.forward(req, res);
-			}
+			}*/
 		}
 		catch(Exception e){
 			logger.error("Exception occured in the personalDetailsGetFilterClass : {}",e);
