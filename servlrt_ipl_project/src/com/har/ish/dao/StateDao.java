@@ -14,12 +14,9 @@ import com.har.ish.utilities.CommonMethods;
 public class StateDao {
 	
 	public StateModel getStateById(Integer Id){
-		Session session = null;
 		Transaction tx = null;
 		StateModel state = new StateModel();
-		try{
-			hibernateInitiator hibe = new hibernateInitiator();
-			session = hibe.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			StringBuilder query = new StringBuilder("FROM state WHERE id=:Id AND isActive=:active");
 			@SuppressWarnings("rawtypes")
@@ -33,19 +30,13 @@ public class StateDao {
 			tx.rollback();
 			e.printStackTrace();
 		}
-		finally{
-			session.close();
-		}
 		return state;
 	}
 	
 	public StateModel getStateByStateName(String StateName){
-		Session session = null;
 		Transaction tx = null;
 		StateModel state = new StateModel();
-		try{
-			hibernateInitiator hibe = new hibernateInitiator();
-			session = hibe.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			StringBuilder query = new StringBuilder("FROM state s WHERE lower(s.stateName)=lower(:stateName) AND s.isActive=:active");
 			@SuppressWarnings("rawtypes")
@@ -59,20 +50,15 @@ public class StateDao {
 			tx.rollback();
 			e.printStackTrace();
 		}
-		finally{
-			session.close();
-		}
 		return state;
 	}
 	
 public Map<String,Integer> getCountryIdForMap(List<String> countryValues){
 		
-		Session session = null;
-		hibernateInitiator hibeInitiator = new hibernateInitiator();
 		Transaction tx = null;
+		String query = new String();
 		CommonMethods method = new CommonMethods();
-		try{
-			session = hibeInitiator.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx=session.beginTransaction();
 			StringBuilder queryString = new StringBuilder("SELECT ID,COUNTRY_NAME FROM COUNTRY WHERE LOWER(COUNTRY_NAME) IN(");
 			for(String s : countryValues){
@@ -80,8 +66,15 @@ public Map<String,Integer> getCountryIdForMap(List<String> countryValues){
 				queryString.append(s);
 				queryString.append("',");
 			}
-			String query = queryString.toString().substring(0, queryString.toString().length()-1);
-			query = query+") AND IS_ACTIVE=1";
+			if(countryValues != null && !countryValues.isEmpty()){
+				query = queryString.toString().substring(0, queryString.toString().length()-1);
+			}
+			if(query.length() == CommonMethods.ZERO){
+				query = queryString.toString()+") AND IS_ACTIVE=1";
+			}
+			else{
+				query = query+") AND IS_ACTIVE=1";
+			}
 			System.out.println("The query for team is "+ query.toString());
 			Query hqlQuery = session.createSQLQuery(query);
 			List<Object[]> objects = hqlQuery.list();
@@ -92,18 +85,11 @@ public Map<String,Integer> getCountryIdForMap(List<String> countryValues){
 			tx.rollback();
 			e.printStackTrace();
 		}
-		finally{
-			session.close();
-		}
 		return null;
-		
 	}
 	public List<String> getAllCountries(){
-		hibernateInitiator in = new hibernateInitiator();
-		Session session = null;
 		Transaction tx = null;
-		try{
-			session = in.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			StringBuilder query = new StringBuilder("SELECT COUNTRY_NAME FROM COUNTRY WHERE IS_ACTIVE=1");
 			Query stringQuery = session.createSQLQuery(query.toString());
@@ -114,9 +100,6 @@ public Map<String,Integer> getCountryIdForMap(List<String> countryValues){
 		catch(Exception e){
 			tx.rollback();
 			e.printStackTrace();
-		}
-		finally{
-			session.close();
 		}
 		return null;
 	}

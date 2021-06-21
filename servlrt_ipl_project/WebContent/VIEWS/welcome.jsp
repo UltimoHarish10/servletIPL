@@ -134,11 +134,14 @@
 				</div>
 				<div class = "search-and-export">
 					<div class = "Search-button-class" Id="button-Id-Search">
-						<button type="button" class="btn btn-primary button-Search">Search</button>
+						<button type="button" class="btn btn-primary button-Search" onclick="searchDetails()">Search</button>
 					</div>
 					<div class = "Export-button-class" Id="button-Id-Export">
 						<button type="button" class="btn btn-primary button-Export" onclick="exportDetails()">Export</button>
 					</div> 
+					<div class= "add-button-class">
+						<img src="<%=request.getContextPath()%>/Images/addButton.png" onclick="filldetails()"style="width:40px;height:40px;float:right;position:fixed;top:65px;right:20px;">
+					</div>
 				</div>
 			</div>
 			<div class=listing-parent-div>

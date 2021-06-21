@@ -85,14 +85,14 @@
 		<servlet-name>PersonDetailsSaveServlet</servlet-name>
 		<url-pattern>/savepersons</url-pattern>
 	</servlet-mapping>
-	<filter>
+	 <filter>
 		<filter-name>SessionCheckiFilter</filter-name>
 		<filter-class>com.har.ish.filters.SessionCheckingFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>SessionCheckiFilter</filter-name>
 		<url-pattern>/savepersons</url-pattern>
-	</filter-mapping>
+	</filter-mapping> 
 
 	<servlet>
 		<servlet-name>PersonDetailsGetFilterServlet</servlet-name>

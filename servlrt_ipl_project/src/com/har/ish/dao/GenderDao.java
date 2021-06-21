@@ -13,11 +13,8 @@ public class GenderDao {
 	@SuppressWarnings("deprecation")
 	public GenderModel getGenderDetailByGenderName(String GenderName){
 		GenderModel gen = new GenderModel();
-		hibernateInitiator in = new hibernateInitiator();
-		Session session = null;
 		Transaction tx = null;
-		try{
-			session = in.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			StringBuilder query = new StringBuilder();
 			query.append("FROM gender G WHERE lower(G.genderName) = lower(:genName) AND isActive=:active");
@@ -32,19 +29,13 @@ public class GenderDao {
 			tx.rollback();
 			e.printStackTrace();
 		}
-		finally{
-			session.close();
-		}
 		return gen;
 	}
 	
 	public GenderModel getGenderDetailsById(Integer Id){
 		GenderModel gen = new GenderModel();
-		hibernateInitiator in = new hibernateInitiator();
-		Session session = null;
 		Transaction tx = null;
-		try{
-			session = in.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			StringBuilder query = new StringBuilder();
 			query.append("FROM gender G WHERE G.Id = :id AND isActive=:active");
@@ -58,9 +49,6 @@ public class GenderDao {
 		catch(Exception e){
 			tx.rollback();
 			e.printStackTrace();
-		}
-		finally{
-			session.close();
 		}
 		return gen;
 	}

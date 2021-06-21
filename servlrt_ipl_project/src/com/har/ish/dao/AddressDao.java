@@ -16,12 +16,9 @@ import com.har.ish.model.AddressModel;
 public class AddressDao {
 	
 	public AddressModel getAddressDetailsById(Integer Id){
-		Session session = null;
 		Transaction tx =  null;
 		AddressModel address = new AddressModel();
-		try{
-			hibernateInitiator hibe = new hibernateInitiator();
-			session = hibe.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			StringBuilder query = new StringBuilder("FROM address WHERE ID=:id AND isActive=:active");
 			@SuppressWarnings("rawtypes")
@@ -34,19 +31,13 @@ public class AddressDao {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		finally{
-			session.close();
-		}
 		return address;
 	}
 	
 	public List<AddressModel> getAddressDetailsByPersonDetailsId(Integer personId){
-		Session session = null;
 		Transaction tx =  null;
 		List<AddressModel> address = new ArrayList<>();
-		try{
-			hibernateInitiator hibe = new hibernateInitiator();
-			session = hibe.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			StringBuilder query = new StringBuilder("FROM address WHERE personalDetails.Id=:id AND isActive=:active");
 			@SuppressWarnings("rawtypes")
@@ -59,18 +50,12 @@ public class AddressDao {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		finally{
-			session.close();
-		}
 		return address;
 	}
 	
 	public void saveAddresses(List<AddressModel> addresses){
-		Session session = null;
 		Transaction tx = null;
-		try{
-			hibernateInitiator in = new hibernateInitiator();
-			session = in.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			for(AddressModel address: addresses){
 				Date date = new Date();
@@ -86,9 +71,6 @@ public class AddressDao {
 		catch(Exception e){
 			tx.rollback();
 			e.printStackTrace();
-		}
-		finally{
-			session.close();
 		}
 	}
 

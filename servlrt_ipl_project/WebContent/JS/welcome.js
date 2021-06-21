@@ -311,11 +311,17 @@ window.onload = function(){
 
 function getPreviousPage(){
 	var xhr = new XMLHttpRequest();
-	xhr.open("GET","/servlrt_ipl_project/persons",true);
+	var filterDtoObject = fillFilterDto();
+	if(filterDtoObject != null){
+		xhr.open("POST","/servlrt_ipl_project/getpersonsbyfilters",true);
+	}
+	else{
+		xhr.open("GET","/servlrt_ipl_project/persons",true);
+	}
 	var fromPage = document.getElementsByClassName("page-No-div")[0].textContent;
 	xhr.setRequestHeader("currentPage",(parseInt(fromPage)-1).toString());
 	xhr.setRequestHeader("fromPage",fromPage);
-	if((parseInt(fromPage)-1) === 1){
+	if((parseInt(fromPage)-1) <= 1){
 		firstPageStats = true;
 	}
 	var pageNumber = (parseInt(fromPage)-1).toString();
@@ -337,107 +343,35 @@ function getPreviousPage(){
 			}
 			var persondetails = JSON.parse(xhr.response);
 			detailListing(persondetails,firstPageStats,isLastPage,pageNumber);
+			firstPageStats=null;
 			console.log(persondetails.size); 
-			// var x;
-			// for(x in persondetails){
-			// 	var singlePersonDetailsDiv = document.createElement("div");
-			// 	singlePersonDetailsDiv.className = "single-person-details";
-			// 	singlePersonDetailsDiv.id = persondetails[x].id;
-			// 	var divBorderDetailsDiv = document.createElement("div");
-			// 	divBorderDetailsDiv.className = "border-details-div";
-			// 	singlePersonDetailsDiv.appendChild(divBorderDetailsDiv);
-			// 	var divProfilePicDiv = document.createElement("div");
-			// 	divProfilePicDiv.className = "profile-pic-div";
-			// 	var img = document.createElement("img");
-			// 	img.src = "/servlrt_ipl_project/Images/person-24px.svg";
-			// 	img.style.width = "31px";
-			// 	img.style.height = "33px";
-			// 	img.style.left = "8px";
-			// 	img.style.top = "6px";
-			// 	img.style.position = "relative";
-			// 	divProfilePicDiv.appendChild(img);
-			// 	singlePersonDetailsDiv.appendChild(divProfilePicDiv);
-			// 	var divProfileNameDiv = document.createElement("div");
-			// 	divProfileNameDiv.className = "profile-Name-div";
-			// 	var divNamesDiv = document.createElement("div");
-			// 	divNamesDiv.className = "names-div";
-			// 	divNamesDiv.textContent = persondetails[x].firstName.concat(" ",persondetails[x].lastName);
-			// 	divProfileNameDiv.appendChild(divNamesDiv);
-			// 	singlePersonDetailsDiv.appendChild(divProfileNameDiv);
-			// 	var divProfileTeamDiv = document.createElement("div");
-			// 	divProfileTeamDiv.className = "profile-team-div";
-			// 	var divProfileTeamNameDiv = document.createElement("div");
-			// 	divProfileTeamNameDiv.className = "profile-team-name-div";
-			// 	divProfileTeamNameDiv.textContent = persondetails[x].teamShortName;
-			// 	divProfileTeamDiv.appendChild(divProfileTeamNameDiv);
-			// 	singlePersonDetailsDiv.appendChild(divProfileTeamDiv);
-			// 	var divProfilePositionDiv = document.createElement("div");
-			// 	divProfilePositionDiv.className = "profile-position-div";
-			// 	var divPositionTitleNameDiv = document.createElement("div");
-			// 	divPositionTitleNameDiv.className = "position-title-name-div";
-			// 	divPositionTitleNameDiv.textContent = persondetails[x].positionTitle;
-			// 	divProfilePositionDiv.appendChild(divPositionTitleNameDiv);
-			// 	singlePersonDetailsDiv.appendChild(divProfilePositionDiv);
-			// 	var divProfileTypeDiv = document.createElement("div");
-			// 	divProfileTypeDiv.className = "profile-type-div";
-			// 	var divProfileTypeNameDiv = document.createElement("div");
-			// 	divProfileTypeNameDiv.className = "profile-type-name-div";
-			// 	divProfileTypeNameDiv.textContent = persondetails[x].profileType;
-			// 	divProfileTypeDiv.appendChild(divProfileTypeNameDiv);
-			// 	singlePersonDetailsDiv.appendChild(divProfileTypeDiv);
-			// 	var divDateOfBrthdiv = document.createElement("div");
-			// 	divDateOfBrthdiv.className = "date-of-brth-div";
-			// 	var divDOBDiv2 = document.createElement("div");
-			// 	divDOBDiv2.className = "DOB-div-2";
-			// 	divDOBDiv2.textContent = persondetails[x].dateOfBirth;
-			// 	divDateOfBrthdiv.appendChild(divDOBDiv2);
-			// 	singlePersonDetailsDiv.appendChild(divDateOfBrthdiv);
-			// 	var personalDetailcontainerDiv = document.getElementsByClassName("personal-details-container")[0];
-			// 	singlePersonDetailsDiv.setAttribute("onclick", "getDetails()");
-			// 	personalDetailcontainerDiv.appendChild(singlePersonDetailsDiv);
-			// }
-			// var divPaginationDiv = document.createElement("div");
-			// divPaginationDiv.className = "pagination-div";
-			// var divPreviousDiv = document.createElement("div");
-			// divPreviousDiv.className = "previous-div";
-			// var previousButtonDiv = document.createElement("button");
-			// previousButtonDiv.className = "btn btn-primary";
-			// previousButtonDiv.className = "button-previous";
-			// previousButtonDiv.textContent ="<< Previous";
-			// divPreviousDiv.appendChild(previousButtonDiv);
-			// divPreviousDiv.setAttribute("onclick", "getPreviousPage()");
-			// divPaginationDiv.appendChild(divPreviousDiv);
-			// var divPageNoDiv = document.createElement("div");
-			// divPageNoDiv.className = "page-No-div";
-			// divPageNoDiv.textContent = (parseInt(fromPage)-1).toString();
-			// divPaginationDiv.appendChild(divPageNoDiv);
-			// var divNextDiv = document.createElement("div");
-			// divNextDiv.className = "next-div";
-			// var nextButtonDiv = document.createElement("button");
-			// nextButtonDiv.className = "btn btn-primary";
-			// nextButtonDiv.className = "button-previous";
-			// nextButtonDiv.textContent ="Next >>";
-			// divNextDiv.appendChild(nextButtonDiv);
-			// divNextDiv.setAttribute("onclick", "getNextPage()");
-			// divPaginationDiv.appendChild(divNextDiv);
-			// var personalDetailcontainerDiv = document.getElementsByClassName("personal-details-container")[0];
-			// personalDetailcontainerDiv.appendChild(divPaginationDiv);
-
 		}
 		else if(this.readyState==4 && this.status!=200){
 			window.location.href = "http://localhost:8080/servlrt_ipl_project/error";
 		}
 	}
-	xhr.send();
+	if(filterDtoObject != null){
+		xhr.send(JSON.stringify(filterDtoObject));
+	}
+	else{
+		xhr.send();
+	}
 }
 
 function getNextPage(){
 	var xhr = new XMLHttpRequest();
+	var filterDtoObject = fillFilterDto();
+	if(filterDtoObject != null){
+		xhr.open("POST","/servlrt_ipl_project/getpersonsbyfilters",true);
+	}
+	else{
+		xhr.open("GET","/servlrt_ipl_project/persons",true);
+	}
 	xhr.open("GET","/servlrt_ipl_project/persons",true);
 	var fromPage = document.getElementsByClassName("page-No-div")[0].textContent;
 	xhr.setRequestHeader("currentPage",(parseInt(fromPage)+1).toString());
-	xhr.setRequestHeader("fromPage",fromPage)
-	if((parseInt(fromPage)+1) === 1){
+	xhr.setRequestHeader("fromPage",fromPage);
+	if((parseInt(fromPage)+1) <= 1){
 		firstPageStats = true;
 	}
 	var pageNumber = (parseInt(fromPage)+1).toString();
@@ -459,98 +393,19 @@ function getNextPage(){
 				isLastPage = false;
 			}
 			detailListing(persondetails,firstPageStats,isLastPage,pageNumber);
+			firstPageStats=null;
 			console.log(persondetails.size); 
-			// var x;
-			// for(x in persondetails){
-			// 	var singlePersonDetailsDiv = document.createElement("div");
-			// 	singlePersonDetailsDiv.className = "single-person-details";
-			// 	singlePersonDetailsDiv.id = persondetails[x].id;
-			// 	var divBorderDetailsDiv = document.createElement("div");
-			// 	divBorderDetailsDiv.className = "border-details-div";
-			// 	singlePersonDetailsDiv.appendChild(divBorderDetailsDiv);
-			// 	var divProfilePicDiv = document.createElement("div");
-			// 	divProfilePicDiv.className = "profile-pic-div";
-			// 	var img = document.createElement("img");
-			// 	img.src = "/servlrt_ipl_project/Images/person-24px.svg";
-			// 	img.style.width = "31px";
-			// 	img.style.height = "33px";
-			// 	img.style.left = "8px";
-			// 	img.style.top = "6px";
-			// 	img.style.position = "relative";
-			// 	divProfilePicDiv.appendChild(img);
-			// 	singlePersonDetailsDiv.appendChild(divProfilePicDiv);
-			// 	var divProfileNameDiv = document.createElement("div");
-			// 	divProfileNameDiv.className = "profile-Name-div";
-			// 	var divNamesDiv = document.createElement("div");
-			// 	divNamesDiv.className = "names-div";
-			// 	divNamesDiv.textContent = persondetails[x].firstName.concat(" ",persondetails[x].lastName);
-			// 	divProfileNameDiv.appendChild(divNamesDiv);
-			// 	singlePersonDetailsDiv.appendChild(divProfileNameDiv);
-			// 	var divProfileTeamDiv = document.createElement("div");
-			// 	divProfileTeamDiv.className = "profile-team-div";
-			// 	var divProfileTeamNameDiv = document.createElement("div");
-			// 	divProfileTeamNameDiv.className = "profile-team-name-div";
-			// 	divProfileTeamNameDiv.textContent = persondetails[x].teamShortName;
-			// 	divProfileTeamDiv.appendChild(divProfileTeamNameDiv);
-			// 	singlePersonDetailsDiv.appendChild(divProfileTeamDiv);
-			// 	var divProfilePositionDiv = document.createElement("div");
-			// 	divProfilePositionDiv.className = "profile-position-div";
-			// 	var divPositionTitleNameDiv = document.createElement("div");
-			// 	divPositionTitleNameDiv.className = "position-title-name-div";
-			// 	divPositionTitleNameDiv.textContent = persondetails[x].positionTitle;
-			// 	divProfilePositionDiv.appendChild(divPositionTitleNameDiv);
-			// 	singlePersonDetailsDiv.appendChild(divProfilePositionDiv);
-			// 	var divProfileTypeDiv = document.createElement("div");
-			// 	divProfileTypeDiv.className = "profile-type-div";
-			// 	var divProfileTypeNameDiv = document.createElement("div");
-			// 	divProfileTypeNameDiv.className = "profile-type-name-div";
-			// 	divProfileTypeNameDiv.textContent = persondetails[x].profileType;
-			// 	divProfileTypeDiv.appendChild(divProfileTypeNameDiv);
-			// 	singlePersonDetailsDiv.appendChild(divProfileTypeDiv);
-			// 	var divDateOfBrthdiv = document.createElement("div");
-			// 	divDateOfBrthdiv.className = "date-of-brth-div";
-			// 	var divDOBDiv2 = document.createElement("div");
-			// 	divDOBDiv2.className = "DOB-div-2";
-			// 	divDOBDiv2.textContent = persondetails[x].dateOfBirth;
-			// 	divDateOfBrthdiv.appendChild(divDOBDiv2);
-			// 	singlePersonDetailsDiv.appendChild(divDateOfBrthdiv);
-			// 	var personalDetailcontainerDiv = document.getElementsByClassName("personal-details-container")[0];
-			// 	singlePersonDetailsDiv.setAttribute("onclick", "getDetails()");
-			// 	personalDetailcontainerDiv.appendChild(singlePersonDetailsDiv);
-			// }
-			// var divPaginationDiv = document.createElement("div");
-			// divPaginationDiv.className = "pagination-div";
-			// var divPreviousDiv = document.createElement("div");
-			// divPreviousDiv.className = "previous-div";
-			// var previousButtonDiv = document.createElement("button");
-			// previousButtonDiv.className = "btn btn-primary";
-			// previousButtonDiv.className = "button-previous";
-			// previousButtonDiv.textContent ="<< Previous";
-			// divPreviousDiv.appendChild(previousButtonDiv);
-			// divPreviousDiv.setAttribute("onclick", "getPreviousPage()");
-			// divPaginationDiv.appendChild(divPreviousDiv);
-			// var divPageNoDiv = document.createElement("div");
-			// divPageNoDiv.className = "page-No-div";
-			// divPageNoDiv.textContent = (parseInt(fromPage)+1).toString;
-			// divPaginationDiv.appendChild(divPageNoDiv);
-			// var divNextDiv = document.createElement("div");
-			// divNextDiv.className = "next-div";
-			// var nextButtonDiv = document.createElement("button");
-			// nextButtonDiv.className = "btn btn-primary";
-			// nextButtonDiv.className = "button-previous";
-			// nextButtonDiv.textContent ="Next >>";
-			// divNextDiv.appendChild(nextButtonDiv);
-			// divNextDiv.setAttribute("onclick", "getNextPage()");
-			// divPaginationDiv.appendChild(divNextDiv);
-			// var personalDetailcontainerDiv = document.getElementsByClassName("personal-details-container")[0];
-			// personalDetailcontainerDiv.appendChild(divPaginationDiv);
-
 		}
 		else if(this.readyState==4 && this.status!=200){
 			window.location.href = "http://localhost:8080/servlrt_ipl_project/error";
 		}
 	}
-	xhr.send();
+	if(filterDtoObject != null){
+		xhr.send(JSON.stringify(filterDtoObject));
+	}
+	else{
+		xhr.send();
+	}
 }
 
 function detailListing(persondetails, firstPageStatus, isLastPage, pageNumber){
@@ -615,7 +470,6 @@ function detailListing(persondetails, firstPageStatus, isLastPage, pageNumber){
 			}
 			var divPaginationDiv = document.createElement("div");
 			divPaginationDiv.className = "pagination-div";
-			divPaginationDiv.style.display = "block";
 			var divPreviousDiv = document.createElement("div");
 			divPreviousDiv.className = "previous-div";
 			var previousButtonDiv = document.createElement("button");
@@ -625,12 +479,12 @@ function detailListing(persondetails, firstPageStatus, isLastPage, pageNumber){
 			divPreviousDiv.appendChild(previousButtonDiv);
 			if(firstPageStatus){
 				previousButtonDiv.remove();
+				divPaginationDiv.appendChild(divPreviousDiv);
 			}
 			else{
-				previousButtonDiv.style.display = "block";
+				divPreviousDiv.setAttribute("onclick", "getPreviousPage()");
+				divPaginationDiv.appendChild(divPreviousDiv);
 			}
-			divPreviousDiv.setAttribute("onclick", "getPreviousPage()");
-			divPaginationDiv.appendChild(divPreviousDiv);
 			var divPageNoDiv = document.createElement("div");
 			divPageNoDiv.className = "page-No-div";
 			divPageNoDiv.textContent = pageNumber;
@@ -642,14 +496,123 @@ function detailListing(persondetails, firstPageStatus, isLastPage, pageNumber){
 			nextButtonDiv.className = "button-previous";
 			nextButtonDiv.textContent ="Next >>";
 			divNextDiv.appendChild(nextButtonDiv);
-			divNextDiv.setAttribute("onclick", "getNextPage()");
-			divPaginationDiv.appendChild(divNextDiv);
 			if(isLastPage){
 				divNextDiv.remove();
+				divNextDiv.appendChild(nextButtonDiv);
 			}
 			else{
-				divNextDiv.style.display = "block";
+				divNextDiv.setAttribute("onclick", "getNextPage()");
+				divPaginationDiv.appendChild(divNextDiv);
 			}
 			var personalDetailcontainerDiv = document.getElementsByClassName("personal-details-container")[0];
 			personalDetailcontainerDiv.appendChild(divPaginationDiv);
+ }
+
+ function searchDetails(){
+	var searchObject = new Object();
+	var positionTitleArr = [];
+	var profileTypeArr = [];
+	var teamsArr = [];
+	var nationArr =[];
+	var parentElement = document.getElementsByClassName("dropdown-contents");
+	for(var i=0;i<parentElement.length;i++){
+		var childElement = parentElement[i].children.length;
+		for(var j=0;j<childElement;j++){
+			if(parentElement[i].children[j].children[0].checked){
+				if(i===0){
+					positionTitleArr.push(parentElement[i].children[j].textContent.trim());
+				}
+				else if(i===1){
+					profileTypeArr.push(parentElement[i].children[j].textContent.trim());
+				}
+				else if(i===2){
+					teamsArr.push(parentElement[i].children[j].textContent.trim());
+				}
+				else if(i===3){
+					nationArr.push(parentElement[i].children[j].textContent.trim());
+				}
+			}
+		}
+	}
+	searchObject.positionTitle = positionTitleArr;
+	searchObject.profileTypes = profileTypeArr;
+	searchObject.teams = teamsArr;
+	searchObject.countries = nationArr;
+	console.log(searchObject);
+	console.log(positionTitleArr);
+	console.log(profileTypeArr);
+	console.log(teamsArr);
+	console.log(nationArr);
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST","/servlrt_ipl_project/getpersonsbyfilters",true);
+	xhr.setRequestHeader("currentPage","1");
+	xhr.setRequestHeader("fromPage","0");
+	firstPageStats = true;
+	var pageNumber = "1";
+	var elementsOfParentDiv = document.getElementsByClassName("single-person-details");
+	[...elementsOfParentDiv].forEach(function(elem) {
+		elem.remove();
+	});
+	document.getElementsByClassName("pagination-div")[0].remove();
+	document.getElementsByClassName("Loader-personal-details")[0].style.display = "block";
+	xhr.onreadystatechange = function(){
+		if(this.readyState==4 && this.status==200){
+			var LastPageStatus = xhr.getResponseHeader("LastPage");
+			if(LastPageStatus === "true"){
+				isLastPage = true;
+			}
+			else{
+				isLastPage = false;
+			}
+			document.getElementsByClassName("Loader-personal-details")[0].style.display = "none";
+			var persondetails = JSON.parse(xhr.response);
+			console.log(persondetails.size); 
+			detailListing(persondetails,firstPageStats,isLastPage,pageNumber);
+			firstPageStats=null;
+			console.log(persondetails.size); 
+		}
+		else if(this.readyState==4 && this.status!=200){
+			window.location.href = "http://localhost:8080/servlrt_ipl_project/error";
+		}
+	};
+	xhr.send(JSON.stringify(searchObject));
+	
+ }
+
+ function fillFilterDto(){
+	var searchObject = new Object();
+	var positionTitleArr = [];
+	var profileTypeArr = [];
+	var teamsArr = [];
+	var nationArr =[];
+	var parentElement = document.getElementsByClassName("dropdown-contents");
+	for(var i=0;i<parentElement.length;i++){
+		var childElement = parentElement[i].children.length;
+		for(var j=0;j<childElement;j++){
+			if(parentElement[i].children[j].children[0].checked){
+				if(i===0){
+					positionTitleArr.push(parentElement[i].children[j].textContent.trim());
+				}
+				else if(i===1){
+					profileTypeArr.push(parentElement[i].children[j].textContent.trim());
+				}
+				else if(i===2){
+					teamsArr.push(parentElement[i].children[j].textContent.trim());
+				}
+				else if(i===3){
+					nationArr.push(parentElement[i].children[j].textContent.trim());
+				}
+			}
+		}
+	}
+	searchObject.positionTitle = positionTitleArr;
+	searchObject.profileTypes = profileTypeArr;
+	searchObject.teams = teamsArr;
+	searchObject.countries = nationArr;
+	console.log(searchObject);
+	console.log(positionTitleArr);
+	console.log(profileTypeArr);
+	console.log(teamsArr);
+	console.log(nationArr);
+	return searchObject;
  }

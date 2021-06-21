@@ -37,7 +37,7 @@ public class playerExportClass extends HttpServlet{
 			FilterDto filterDto = new Gson().fromJson(request.getReader(),FilterDto.class);
 			List<AllPersonalDetailsDto> personDetails = new ArrayList<>();
 			if(filterDto != null){
-				personDetails = personalServices.getPersonDetailsByFilters(filterDto,personDetails);
+				personDetails = personalServices.getPersonDetailsByFilters(filterDto,personDetails,null,null);
 			}
 			else{
 				AllPersonalDetailsDto personDto = new AllPersonalDetailsDto();

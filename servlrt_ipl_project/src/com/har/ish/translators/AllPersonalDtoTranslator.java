@@ -168,7 +168,7 @@ public class AllPersonalDtoTranslator {
 			if(personModel.getIsActive()==null){
 				personModel.setIsActive(true);
 			}
-			if(personModel.getDateOfBirth() != null){  
+			if(personalDet.getDateOfBirth() != null){  
 			    Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(personalDet.getDateOfBirth());  
 				personModel.setDateOfBirth(date1);
 			}

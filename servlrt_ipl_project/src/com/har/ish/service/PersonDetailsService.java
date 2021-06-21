@@ -151,7 +151,7 @@ public class PersonDetailsService {
 	}
 
 	public List<AllPersonalDetailsDto> getPersonDetailsByFilters(FilterDto filterDto,
-			List<AllPersonalDetailsDto> personDetails) {
+			List<AllPersonalDetailsDto> personDetails,Integer currentPage,Integer fromPage) {
 		logger.info("Inside the getPersonDetailsByFilters method");
 		PersonalDetailsDao personDetailsDao = new PersonalDetailsDao();
 		AllPersonalDtoTranslator translator = new AllPersonalDtoTranslator();
@@ -162,7 +162,7 @@ public class PersonDetailsService {
 		try {
 			filterDto = commonMethod.lowerCaseConversion(filterDto);
 			Map<String, Map<String, Integer>> maps = commonTranslator.translateToFilterMap(filterDto);
-			List<Object[]> personObjects = personDetailsDao.getPersonalDetailsByFilters(maps, filterDto);
+			List<Object[]> personObjects = personDetailsDao.getPersonalDetailsByFilters(maps, filterDto, currentPage, fromPage);
 			personDetails = translator.translateToAllPersonalDto(personObjects, personDetails);
 			/*
 			 * jsonString = mapper.writeValueAsString(personDetails);
