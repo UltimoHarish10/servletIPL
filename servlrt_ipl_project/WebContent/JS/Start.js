@@ -23,7 +23,7 @@ function submitfuns()
 			  document.getElementById("loader").style.display = "none";
 			  if(isAuthenticated){
 				  /*window.location.href = "http://localhost:8080/servlrt_ipl_project/VIEWS/welcome.jsp";*/
-				  window.location.href = "http://localhost:8080/servlrt_ipl_project/getpersonsbyfilters";
+				  window.location.href = "http://localhost:8080/servlrt_ipl_project/getDropDownValues";
 			  }
 		  }
 		  else if(this.readyState==4 && this.status!=200){

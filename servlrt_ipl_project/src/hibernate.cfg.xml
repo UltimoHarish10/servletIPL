@@ -5,17 +5,19 @@
 	<session-factory>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
 		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/servlet_ipl</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/servlet_ipl?autoReconnect=true</property>
 		<property name="hibernate.connection.username">root</property>
 		<property name="hibernate.connection.password">takenwalt***</property>
 		<property name="hbm2ddl.auto">update</property>
 		<property name="show_sql">true</property>
-		<!-- <property name="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
+		 <property name="hibernate.connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>
 		<property name="hibernate.c3p0.min_size">5</property>
 		<property name="hibernate.c3p0.max_size">100</property>
-		<property name="hibernate.c3p0.timeout">300</property>
+		<property name="hibernate.c3p0.acquire_increment">5</property>
+		<property name="hibernate.c3p0.timeout">1</property>
 		<property name="hibernate.c3p0.max_statements">50</property>
-		<property name="hibernate.c3p0.idle_test_period">3000</property> -->
+		<property name="hibernate.c3p0.idle_test_period">50</property>
+		<property name="c3p0.testConnectionOnCheckout">true</property>
 		<mapping resource="named_queries.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

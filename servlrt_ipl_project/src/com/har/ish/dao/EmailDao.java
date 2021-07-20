@@ -17,12 +17,9 @@ public class EmailDao {
 	
 	@SuppressWarnings("deprecation")
 	public EmailModel getEmailDetailsById(Integer Id){
-		Session session = null;
 		Transaction tx = null;
 		EmailModel emails = new EmailModel();
-		try{
-			hibernateInitiator hibe = new hibernateInitiator();
-			session = hibe.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			StringBuilder query = new StringBuilder("FROM email e WHERE e.Id=:Id AND e.isActive=:active");
 			@SuppressWarnings("rawtypes")
@@ -35,20 +32,14 @@ public class EmailDao {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		finally{
-			session.close();
-		}
 		return emails;
 	}
 
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	public List<EmailModel> getEmailDetailsByPersonDetailsId(Integer Id){
-		Session session = null;
 		Transaction tx = null;
 		List<EmailModel> emails = new ArrayList<>();
-		try{
-			hibernateInitiator hibe = new hibernateInitiator();
-			session = hibe.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			StringBuilder query = new StringBuilder("FROM email e WHERE e.personalDetails.Id=:Id AND e.isActive=:active");
 			@SuppressWarnings("rawtypes")
@@ -61,19 +52,13 @@ public class EmailDao {
 		catch(Exception e){
 			e.printStackTrace();
 		}
-		finally{
-			session.close();
-		}
 		return emails;
 	}
 	
 	
 	public void saveEmailModel(List<EmailModel> emails){
-		Session session = null;
 		Transaction tx = null;
-		try{
-			hibernateInitiator in = new hibernateInitiator();
-			session = in.creator();
+		try(Session session = hibernateInitiator.creator()){
 			tx = session.beginTransaction();
 			for(EmailModel email : emails){
 				Date date = new Date();
@@ -89,9 +74,6 @@ public class EmailDao {
 		catch(Exception e){
 			tx.rollback();
 			e.printStackTrace();
-		}
-		finally{
-			session.close();
 		}
 	}
 	

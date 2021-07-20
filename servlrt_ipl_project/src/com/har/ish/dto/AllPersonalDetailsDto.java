@@ -1,5 +1,6 @@
 package com.har.ish.dto;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -20,6 +21,7 @@ public class AllPersonalDetailsDto {
 	private List<Long> phoneNumbers;
 	private List<String> emails;
 	private List<AddressDto> addresses;
+	private String dateOfBirth;
 
 	public Integer getId() {
 		return Id;
@@ -115,5 +117,13 @@ public class AllPersonalDetailsDto {
 
 	public void setAddresses(List<AddressDto> addresses) {
 		this.addresses = addresses;
+	}
+
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 }

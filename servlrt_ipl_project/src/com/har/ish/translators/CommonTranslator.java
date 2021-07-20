@@ -30,17 +30,25 @@ public class CommonTranslator {
 		Map<String,Map<String,Integer>> filterMap = new HashMap<>();
 		Map<String,Integer>supportFiltermap = new HashMap<>();
 		try{
-			supportFiltermap.putAll(posDao.getprofileTypesIdForMap(filterDto.getProfileTypes()));
-			filterMap.put(PROFILE_TYPE,supportFiltermap);
+			if(filterDto.getProfileTypes() != null && !filterDto.getProfileTypes().isEmpty()){
+				supportFiltermap.putAll(posDao.getprofileTypesIdForMap(filterDto.getProfileTypes()));
+				filterMap.put(PROFILE_TYPE,supportFiltermap);
+			}
 			supportFiltermap = new HashMap<>();
-			supportFiltermap.putAll(posDao.getpositionTitlesIdForMap(filterDto.getPositionTitle()));
-			filterMap.put(POSITION_TITLE, supportFiltermap);
+			if(filterDto.getPositionTitle() != null && !filterDto.getPositionTitle().isEmpty()){
+				supportFiltermap.putAll(posDao.getpositionTitlesIdForMap(filterDto.getPositionTitle()));
+				filterMap.put(POSITION_TITLE, supportFiltermap);
+			}
 			supportFiltermap = new HashMap<>();
-			supportFiltermap.putAll(teamDao.getTeamIdForMap(filterDto.getTeams()));
-			filterMap.put(TEAMS, supportFiltermap);
+			if(filterDto.getTeams() != null && !filterDto.getTeams().isEmpty()){
+				supportFiltermap.putAll(teamDao.getTeamIdForMap(filterDto.getTeams()));
+				filterMap.put(TEAMS, supportFiltermap);
+			}
 			supportFiltermap = new HashMap<>();
-			supportFiltermap.putAll(stateDao.getCountryIdForMap(filterDto.getCountries()));
-			filterMap.put(COUNTRY, supportFiltermap);
+			if(filterDto.getCountries() != null && !filterDto.getCountries().isEmpty()){
+				supportFiltermap.putAll(stateDao.getCountryIdForMap(filterDto.getCountries()));
+				filterMap.put(COUNTRY, supportFiltermap);
+			}
 		}
 		catch(Exception e){
 			logger.error("Exception occured in the translateToFilterMap method : {}",e);

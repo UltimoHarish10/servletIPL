@@ -17,7 +17,11 @@ import com.har.ish.model.passwordModel;
 import com.har.ish.model.profileTypeModel;
 
 public class hibernateInitiator {
-	public Session creator(){
+	
+	public static Session session = null;
+	public static SessionFactory sf = null;
+	
+	public static Session creator(){
 		Configuration con=new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(passwordModel.class)
 				.addAnnotatedClass(AddressModel.class)
 				.addAnnotatedClass(CountryModel.class)
@@ -29,8 +33,9 @@ public class hibernateInitiator {
 				.addAnnotatedClass(profileTypeModel.class)
 				.addAnnotatedClass(StateModel.class)
 				.addAnnotatedClass(TeamModel.class);
-		SessionFactory sf=con.buildSessionFactory();
-		Session session=sf.openSession();
+		sf = con.buildSessionFactory();
+		if(session == null || !session.isOpen())
+		session = sf.openSession();
 		return session;		
 	}
 }

@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>Edit player details</title>
+<link href="../CSS/content.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet"
+	href="../CSS/Avenir Medium/Avenir Medium.ttf">
+<link rel="stylesheet"
+	href="../CSS/bootstrap.min.css">
+</head>
+<body>
+<div class = "full-content">
+    <div class = "top-bar-content">
+        <div class="top-bar-text">
+            ADD/EDIT PERSONNEL DETAILS
+        </div>
+        <div class = "Save-button-div">
+            <button type="button" class="btn btn-primary" id="save-button-id">Save</button>
+        </div>
+        <div class = "Close-button-div">
+            <button type="button" class="btn btn-danger" id="close-button-id">Close</button>
+        </div>
+    </div>
+    <div class = "bottom-bar-content">
+        <div class = "bottom-bar-sub-contents">
+            <div class = "image-content-div">
+                <img src="../Images/icon1.jpg"id="profile-images-id">
+            </div>
+            <div class = "upload-image-button-div">
+                <button type="button" class="btn btn-primary btn-lg" id="upload-image-button">Upload Image</button>
+            </div>
+        </div>
+        <div class = "bottom-bar-sub-contents">
+            <div class = "first-name-div">
+                First Name*<br>
+                <input id="firnam" type="text" onchange="changing()">
+            </div>
+            <div class = "profile-type-div">
+                Profile Type*<br>
+                <select id="profiletype-id" onchange="change()">
+                    <option value="Player">Player</option>
+                    <option value="Official">Official</option>
+                </select>
+            </div>
+        </div>
+        <div class = "bottom-bar-sub-contents">
+            <div class = "last-name-div">
+                Last Name*<br>
+                <input id="lasnam" type="text" onchange="changing()">
+            </div>
+        </div>
+        <div class = "bottom-bar-sub-contents">
+            <div class="gender-div">
+                Gender*
+                <select id="gender-id">
+                    <option value="Gender">Male</option>
+                    <option value="Gender">Female</option>
+                    <option value="Gender">Others</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
